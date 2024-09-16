@@ -1,20 +1,68 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title [routerLink]="['/']"> Book Database </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-item>
+      <ion-searchbar
+        [(ngModel)]="searchQuery"
+        [debounce]="1000"
+        (ionInput)="handleSearch($event)"
+      ></ion-searchbar>
+      <ion-button fill="solid" (click)="searchSuggestion()">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="suggestions" *ngIf="searchResults.length > 0">
+    <ion-list>
+      <ion-item
+        *ngFor="let suggestion of searchResults"
+        (click)="selectSuggestion(suggestion.id)"
+      >
+        <ion-label class="search-item"> {{ suggestion.title }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="center" *ngIf="isLoadingBooks">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!isLoadingBooks">
+    <ion-list>
+      <ion-item
+        *ngFor="let book of books.results"
+        [routerLink]="['./', 'detail', book.id]"
+      >
+        <ion-thumbnail slot="start">
+          <img [src]="book.cover" alt="cover of {{ book.title }}" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ book.title }}</h2>
+          <p>By: {{ book.authors.join("; ") }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="prevPage()" [disabled]="currentPage === 1"
+            >Previous</ion-button
+          >
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button
+            (click)="nextPage()"
+            [disabled]="currentPage >= totalPages"
+            >Next</ion-button
+          >
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
   </div>
 </ion-content>

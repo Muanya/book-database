@@ -25,3 +25,20 @@
 #container a {
   text-decoration: none;
 }
+
+.suggestions {
+  position: absolute;
+  width: 50%;
+  background-color: white;
+  z-index: 100;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 1px;
+  border: 1px solid #d3d3d3; /* Border to separate from the rest of the content */
+  border-radius: 8px; /* Rounded corners for better appearance */
+}
+
+.search-item {
+  color: #f0f4f8; /* Darker text for readability */
+  font-weight: bold; /* Make the text bold */
+}

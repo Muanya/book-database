@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title *ngIf="!isLoadingBook"> {{book.title}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="center" *ngIf="isLoadingBook">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <ion-grid *ngIf="!isLoadingBook">
+    <ion-row>
+      <ion-col size="12" sizeSm="10" offsetSm="1" class="ion-text-center">
+        <ion-row>
+          <ion-col size="12" sizeMd="4">
+            <ion-card>
+              <img [src]="book.cover" class="discover-image ion-padding" />
+            </ion-card>
+          </ion-col>
+
+          <ion-col size="12" sizeMd="8">
+            <ion-row>
+              <ion-col size="4" offset="1" sizeMd="4"><ion-text>Book Title</ion-text> </ion-col>
+              <ion-col size="4" offset="1" sizeMd="4">
+                <ion-text>
+                  {{ book.title }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="4" offset="1" sizeMd="4"
+                ><ion-text *ngIf="book.authors.length === 1"
+                  >Book Author</ion-text
+                >
+                <ion-text *ngIf="book.authors.length > 1"
+                  >Book Authors</ion-text
+                ></ion-col
+              >
+              <ion-col  size="4" offset="1" sizeMd="4">
+                <ion-row *ngFor="let author of book.authors">
+                  <ion-col>
+                    <ion-text> {{ author }} </ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="4" offset="1" sizeMd="4"><ion-text>Number of Downloads</ion-text> </ion-col>
+              <ion-col size="4" offset="1" sizeMd="4">
+                <ion-text>
+                  {{ book.downloadCount }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col  size="4" offset="1" sizeMd="4"><ion-text>Subjects</ion-text> </ion-col>
+              <ion-col  size="4" offset="1" sizeMd="4">
+                <ion-row *ngFor="let subject of book.subjects">
+                  <ion-col>
+                    <ion-list> {{ subject }} </ion-list>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+
+            <!-- button -->
+            <ion-row class="ion-padding">
+              <ion-col size="12" sizeMd="8">
+                <ion-button
+                  fill="outline"
+                  expand="block"
+                  (click)="downloadFile(book.epub)"
+                  >Download Epub</ion-button
+                >
+                <ion-button expand="full" (click)="downloadFile(book.zip)"
+                  >Download Zip</ion-button
+                >
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
