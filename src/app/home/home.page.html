@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title [routerLink]="['/']"> Book Database </ion-title>
+    <ion-title [routerLink]="['./']"> Book Database </ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-item>
@@ -16,7 +16,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="body">
   <div class="suggestions" *ngIf="searchResults.length > 0">
     <ion-list>
       <ion-item
@@ -28,11 +28,16 @@
     </ion-list>
   </div>
 
+  <div *ngIf="searchMode" class="search-info">
+    <h3>Search Results for <i>{{ searchValue }} </i></h3>
+  </div>
+
   <div class="center" *ngIf="isLoadingBooks">
     <ion-spinner color="primary"></ion-spinner>
   </div>
 
   <div *ngIf="!isLoadingBooks">
+   <div class="scroll-body">
     <ion-list>
       <ion-item
         *ngFor="let book of books.results"
@@ -47,8 +52,9 @@
         </ion-label>
       </ion-item>
     </ion-list>
+   </div>
 
-    <ion-footer>
+    <ion-footer class="pagination-control">
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-button (click)="prevPage()" [disabled]="currentPage === 1"

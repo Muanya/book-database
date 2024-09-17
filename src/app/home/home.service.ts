@@ -14,7 +14,7 @@ import {
 })
 export class HomeService {
   private baseUrl: string = 'https://gutendex.com/';
-  booksPerRequest: number = 16;
+  booksPerRequest: number = 10;
   apiBooksPerRequest: number = 32;
   private suggestionLength: number = 5;
   private _bookResponse = new BehaviorSubject<BooksResponse | null>(null);
@@ -123,7 +123,6 @@ export class HomeService {
       un % this.apiBooksPerRequest
     );
     res.results = results;
-    console.log(res);
     return res;
   }
 
@@ -140,8 +139,6 @@ export class HomeService {
       suggestions.push({ id: results[i].id, title: results[i].title });
     }
 
-    console.log(suggestions);
-
     return suggestions;
   }
 
@@ -157,7 +154,7 @@ export class HomeService {
     let processedBooks: Array<Books> = [];
 
     if (results.length == 1) {
-      for (let i = low; i <= Math.min(results[0].length - 1 , upper); i++) {
+      for (let i = low; i <= Math.min(results[0].length - 1, upper); i++) {
         let element = results[0][i];
 
         let bk: Books = this.processBookObject(element);
@@ -173,7 +170,7 @@ export class HomeService {
         processedBooks.push(bk);
       }
 
-      for (let i = 0; i <= Math.min(results[1].length - 1 , upper); i++) {
+      for (let i = 0; i <= Math.min(results[1].length - 1, upper); i++) {
         let element = results[1][i];
 
         let bk: Books = this.processBookObject(element);

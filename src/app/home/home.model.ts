@@ -16,8 +16,8 @@ export interface Books {
   cover: string;
   epub: string;
   zip: string;
-  subjects: Array<string>
-  downloadCount: number
+  subjects: Array<string>;
+  downloadCount: number;
 }
 
 export interface SearchBookResult {

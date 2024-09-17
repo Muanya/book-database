@@ -42,3 +42,22 @@
   color: #f0f4f8; /* Darker text for readability */
   font-weight: bold; /* Make the text bold */
 }
+
+.search-info {
+  position: sticky;
+  top: 0%;
+  z-index: 1000;
+  background-color: var(--background);
+  padding: 5px;
+  padding-left: 25px;
+}
+
+.scroll-body {
+  overflow-y: scroll;
+  padding: 5px;
+}
+
+.pagination-control {
+  position: sticky;
+  bottom: 0;
+}

@@ -14,6 +14,7 @@ export class HomePage implements OnInit, OnDestroy {
   public totalPages: number = 100;
   public searchResults: Array<SearchBookResult> = [];
   searchQuery: string = '';
+  searchValue: string = '';
 
   books!: BooksResponse;
   booksSub!: Subscription;
@@ -21,7 +22,7 @@ export class HomePage implements OnInit, OnDestroy {
   searchSuggestionSub!: Subscription;
 
   isLoadingBooks: boolean = true;
-  private searchMode: boolean = false;
+  searchMode: boolean = false;
 
   constructor(
     private service: HomeService,
@@ -54,9 +55,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   processRoute() {
     this.paramSub = this.activatedRoute.queryParams.subscribe((paramDict) => {
+      this.isLoadingBooks = true;
       this.currentPage = 1;
       this.searchMode = false;
-      let searchValue = '';
+      this.searchValue = '';
 
       if (paramDict['page']) {
         this.currentPage = +paramDict['page'];
@@ -64,10 +66,14 @@ export class HomePage implements OnInit, OnDestroy {
 
       if (paramDict['search']) {
         this.searchMode = true;
-        searchValue = paramDict['search'];
+        this.searchValue = paramDict['search'];
       }
 
-      this.service.getBooks(this.currentPage, this.searchMode, searchValue);
+      this.service.getBooks(
+        this.currentPage,
+        this.searchMode,
+        this.searchValue
+      );
     });
   }
 
@@ -109,8 +115,6 @@ export class HomePage implements OnInit, OnDestroy {
     const query = event.target.value.toLowerCase();
     console.log(this.currentPage);
     this.service.getSearchSuggestions(query);
-
-    // this.results = this.data.filter((d) => d.toLowerCase().indexOf(query) > -1);
   }
 
   selectSuggestion(searchId: number) {
@@ -130,5 +134,7 @@ export class HomePage implements OnInit, OnDestroy {
       queryParams: newQueryParams,
       queryParamsHandling: 'merge', // Merge with existing query params
     });
+
+    this.searchQuery = '';
   }
 }
